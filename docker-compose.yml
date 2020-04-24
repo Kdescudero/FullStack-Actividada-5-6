@@ -7,6 +7,8 @@ services:
       - discovery.type=single-node
     ports:
       - 9200:9200
+    networks:
+      - orders_network
   postgres:
     build: ./postgres
     container_name: postgres
@@ -14,3 +16,14 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - 5432:5432
+    networks:
+      - orders_network
+  backend:
+    build: ./backend
+    container_name: orders_api
+    networks:
+      - orders_network
+    ports:
+      - 8080:8080
+networks:
+  orders_network:
